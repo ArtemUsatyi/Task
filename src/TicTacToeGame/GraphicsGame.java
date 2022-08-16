@@ -3,8 +3,7 @@ package TicTacToeGame;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class GraphicsGame extends JFrame implements ActionListener {
     private JButton[][] jButton;
@@ -66,7 +65,6 @@ public class GraphicsGame extends JFrame implements ActionListener {
 
         textLabel3.setBounds(380, 300, 160, 23);
         textLabel3.setFont(new Font("TORCH", Font.BOLD, 10));
-        // textLabel3.setBorder(new LineBorder(Color.black));
         textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №1");
         add(textLabel3);
 
@@ -79,9 +77,9 @@ public class GraphicsGame extends JFrame implements ActionListener {
                 jButton[i][j] = new JButton();
                 jButton[i][j].setBounds(35 + (i * 100), 50 + (j * 100), 100, 100);
                 jButton[i][j].setFont(new Font("TORCH", Font.BOLD, 75));
-                jButton[i][j].setContentAreaFilled(false);
+                jButton[i][j].setContentAreaFilled(true);
                 jButton[i][j].setFocusPainted(false);
-                jButton[i][j].setBorder(new LineBorder(Color.black));
+                jButton[i][j].setBorder(new LineBorder(Color.GRAY));
                 add(jButton[i][j]);
                 saveMoves[i][j] = "";
 
@@ -95,15 +93,15 @@ public class GraphicsGame extends JFrame implements ActionListener {
 
         newGame.addActionListener(this);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == restart) {
             restart();
         } else if (e.getSource() == newGame) {
             newGame();
-        } else {
-            count++;
+        }
+        else {
+            outerloop:
             for (int i = 0; i < 3; i++)
                 for (int j = 0; j < 3; j++) {
                     if (e.getSource() == jButton[i][j]) {
@@ -112,25 +110,28 @@ public class GraphicsGame extends JFrame implements ActionListener {
                                 saveMoves[i][j] = "X";
                                 jButton[i][j].setText("X");
                                 player = false;
+                                count++;
                             } else {
                                 jButton[i][j].setText("O");
                                 saveMoves[i][j] = "O";
                                 player = true;
+                                count++;
                             }
-
                         }
                     }
                     if (!jButton[i][j].getText().isEmpty()) {
+
                         if (logicGame(jButton[i][j].getText()) == 1) {
                             textLabel1.setText(Integer.toString(++playerCount1));
                             textLabel3.setText("ВЫИГРАЛ ИГРОК №1");
-                        }
-                        if (logicGame(jButton[i][j].getText()) == 2) {
+                            break outerloop;
+                        } else if (logicGame(jButton[i][j].getText()) == 2) {
                             textLabel2.setText(Integer.toString(++playerCount2));
                             textLabel3.setText("ВЫИГРАЛ ИГРОК №2");
-                        }
-                        if (logicGame(jButton[i][j].getText()) == 3) {
+                            break outerloop;
+                        } else if (logicGame(jButton[i][j].getText()) == 3) {
                             textLabel3.setText("НИЧЬЯ!");
+                            break outerloop;
                         }
                     }
                 }
@@ -144,6 +145,7 @@ public class GraphicsGame extends JFrame implements ActionListener {
             }
         if (player.equals("X")) return 1;
         else if (player.equals("O")) return 2;
+        else if (count == 9) return 3;
         return 0;
     }
 
@@ -162,14 +164,16 @@ public class GraphicsGame extends JFrame implements ActionListener {
         else if (jButton[0][2].getText().equals(player) && jButton[1][1].getText().equals(player) && jButton[2][0].getText().equals(player))
             return stopGame(player);
 
-        else if (count == 9) return 3;
-
+        else if (count == 9) {
+            player = "";
+            return stopGame(player);
+        }
         return 0;
     }
 
     public void restart() {
         count = 0;
-        if(player) textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №1");
+        if (player) textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №1");
         else textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №2");
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
@@ -186,6 +190,7 @@ public class GraphicsGame extends JFrame implements ActionListener {
         playerCount1 = 0;
         playerCount2 = 0;
         count = 0;
+        player = true;
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
                 saveMoves[i][j] = "";
