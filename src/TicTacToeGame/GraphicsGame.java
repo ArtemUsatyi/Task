@@ -64,9 +64,10 @@ public class GraphicsGame extends JFrame implements ActionListener {
         textLabel2.setText("0");
         add(textLabel2);
 
-        textLabel3.setBounds(380, 300, 150, 23);
-        textLabel3.setFont(new Font("TORCH", Font.BOLD, 15));
-        textLabel3.setText("ДЕЛАЙТЕ ХОД!");
+        textLabel3.setBounds(380, 300, 160, 23);
+        textLabel3.setFont(new Font("TORCH", Font.BOLD, 10));
+        // textLabel3.setBorder(new LineBorder(Color.black));
+        textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №1");
         add(textLabel3);
 
 
@@ -122,14 +123,14 @@ public class GraphicsGame extends JFrame implements ActionListener {
                     if (!jButton[i][j].getText().isEmpty()) {
                         if (logicGame(jButton[i][j].getText()) == 1) {
                             textLabel1.setText(Integer.toString(++playerCount1));
-                            textLabel3.setText("Выиграл игрок №1");
+                            textLabel3.setText("ВЫИГРАЛ ИГРОК №1");
                         }
                         if (logicGame(jButton[i][j].getText()) == 2) {
                             textLabel2.setText(Integer.toString(++playerCount2));
-                            textLabel3.setText("Выиграл игрок №2");
+                            textLabel3.setText("ВЫИГРАЛ ИГРОК №2");
                         }
                         if (logicGame(jButton[i][j].getText()) == 3) {
-                            textLabel3.setText("НИЧЬЯ");
+                            textLabel3.setText("НИЧЬЯ!");
                         }
                     }
                 }
@@ -168,7 +169,8 @@ public class GraphicsGame extends JFrame implements ActionListener {
 
     public void restart() {
         count = 0;
-        textLabel3.setText("ДЕЛАЙТЕ ХОД!");
+        if(player) textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №1");
+        else textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №2");
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
                 saveMoves[i][j] = "";
@@ -180,7 +182,7 @@ public class GraphicsGame extends JFrame implements ActionListener {
     public void newGame() {
         textLabel1.setText("0");
         textLabel2.setText("0");
-        textLabel3.setText("ДЕЛАЙТЕ ХОД!");
+        textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №1");
         playerCount1 = 0;
         playerCount2 = 0;
         count = 0;
