@@ -1,4 +1,4 @@
-package TicTacToeGame;
+package com.tictactoegame;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -8,7 +8,6 @@ import java.awt.event.*;
 public class GraphicsGame extends JFrame implements ActionListener {
     private JButton[][] jButton;
     private String[][] saveMoves;
-
     private JButton restart;
     private JButton newGame;
     private JLabel textLabel1 = new JLabel();
@@ -21,14 +20,12 @@ public class GraphicsGame extends JFrame implements ActionListener {
     private int playerCount1 = 0;
     private int playerCount2 = 0;
 
-
     public GraphicsGame() {
         super("Tic-Tac-Tie  |  Крестики-нолики");
         this.setSize(580, 460);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
         setLayout(null);
 
         restart = new JButton("Перезапустить");
@@ -68,7 +65,6 @@ public class GraphicsGame extends JFrame implements ActionListener {
         textLabel3.setText("ДЕЛАЙ ХОД-ИГРОК №1");
         add(textLabel3);
 
-
         jButton = new JButton[3][3];
         saveMoves = new String[3][3];
 
@@ -82,25 +78,23 @@ public class GraphicsGame extends JFrame implements ActionListener {
                 jButton[i][j].setBorder(new LineBorder(Color.GRAY));
                 add(jButton[i][j]);
                 saveMoves[i][j] = "";
-
             }
-
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 jButton[i][j].addActionListener(this);
 
         restart.addActionListener(this);
-
         newGame.addActionListener(this);
+        this.setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == restart) {
             restart();
         } else if (e.getSource() == newGame) {
             newGame();
-        }
-        else {
+        } else {
             outerloop:
             for (int i = 0; i < 3; i++)
                 for (int j = 0; j < 3; j++) {
@@ -198,5 +192,4 @@ public class GraphicsGame extends JFrame implements ActionListener {
                 jButton[i][j].setEnabled(true);
             }
     }
-
 }
